@@ -6,7 +6,7 @@
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:54:18 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/07 20:31:18 by lsulzbac         ###   ########.fr       */
+/*   Updated: 2022/06/07 21:10:57 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ static int	print_hexa(unsigned int nbr, char spec)
 	return (size);
 }
 
+/*static int	print_pointer(void *ptr)
+{
+	(void)ptr;
+	ft_putstr_fd("should be a pointer", 1);
+	return (0);
+}*/
+
 static int	print_conversions(char spec, va_list ptr)
 {
 	int		ret_value;
@@ -108,7 +115,10 @@ static int	print_conversions(char spec, va_list ptr)
 		ret_value += print_uint(va_arg(ptr, unsigned int)) - 1;
 	else if (spec == 'x' || spec == 'X')
 		ret_value += print_hexa(va_arg(ptr, unsigned int), spec) - 1;
-
+	else if (spec == 'p')
+	{
+		ret_value += print_hexa(va_arg(ptr, unsigned int), 'x') - 1;
+	}
 	return (ret_value);
 }
 
