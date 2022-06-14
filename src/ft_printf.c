@@ -6,168 +6,192 @@
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:54:18 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/07 21:10:57 by lsulzbac         ###   ########.fr       */
+/*   Updated: 2022/06/08 18:14:56 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
+#include <unistd.h>
 #include <stdarg.h>
 
-static int	print_uint(unsigned int nbr)
+/*static int	ft_putchar(char c)
 {
-	int	size;
+	return (write(1, &c, 1));
+}
 
-	size = 0;
-	if (nbr < 10)
+static int	ft_putstr(char *str)
+{
+	int	i;
+	int	temp;
+
+	i = 0;
+	if (str == NULL)
 	{
-		ft_putchar_fd(nbr + '0', 1);
-		size++;
+		temp = ft_putstr("(null)");
+		if (temp == -1)
+			return (temp);
+		i = temp;
 	}
 	else
 	{
-		size += print_uint(nbr / 10);
-		ft_putchar_fd(nbr % 10 + '0', 1);
-		size++;
+		while (str[i])
+		{
+			temp = ft_putchar(str[i]);
+			if (temp == -1)
+				return (temp);
+			i += temp;
+		}
 	}
-	return (size);
-}
+	return (i);
+}*/
 
-static int	print_hexa(unsigned int nbr, char spec)
+/*static int	print_uint(long nbr)
 {
 	int	size;
+	int	temp;
+
+	size = 0;
+	if (nbr < 0)
+	{
+		temp = ft_putchar('-');
+		if (temp == -1)
+			return (-1);
+		size += temp;
+		if (nbr == -2147483648)
+		{
+			temp = ft_putchar('2');
+			if (temp == -1)
+				return (-1);
+			size += temp;
+			nbr += 2000000000;
+		}
+		nbr *= -1;
+		temp = print_uint(nbr);
+		if (temp == -1)
+			return (-1);
+		size += temp;
+	}
+	else if (nbr < 10)
+	{
+		temp = ft_putchar(nbr + '0');
+		if (temp == -1)
+			return (-1);
+		size += temp;
+	}
+	else
+	{
+		temp = print_uint(nbr / 10);
+		if (temp == -1)
+			return (-1);
+		size += temp;
+		temp = ft_putchar(nbr % 10 + '0');
+		if (temp == -1)
+			return (-1);
+		size += temp;
+	}
+	return (size);
+}*/
+
+/*static int	hexa_helper(unsigned long nbr, char spec)
+{
+	int	temp;
+
+	if (nbr < 10)
+		temp = ft_putchar(nbr + '0');
+	else
+	{
+		if (spec == 'x')
+			temp = ft_putchar('a' + (nbr - 10));
+		else
+			temp = ft_putchar('A' + (nbr - 10));
+	}
+	return (temp);
+}
+
+static int	print_hexa(unsigned long nbr, char spec)
+{
+	int	size;
+	int	temp;
 
 	size = 0;
 	if (nbr < 16)
 	{
-		if (nbr < 10)
-			ft_putchar_fd(nbr + '0', 1);
-		else
-		{
-			if (spec == 'x')
-				ft_putchar_fd('a' + (nbr - 10), 1);
-			else
-				ft_putchar_fd('A' + (nbr - 10), 1);
-		}
-		size++;
+		temp = hexa_helper(nbr, spec);
+		if (temp == -1)
+			return (-1);
+		size += temp;
 	}
 	else
 	{
-		size += print_hexa(nbr / 16, spec);
-		if (nbr % 16 < 10)
-			ft_putchar_fd(nbr % 16 + '0', 1);
-		else
-		{
-			if (spec == 'x')
-				ft_putchar_fd('a' + (nbr % 16 - 10), 1);
-			else
-				ft_putchar_fd('A' + (nbr % 16 - 10), 1);
-		}
-		size++;
+		temp = print_hexa(nbr / 16, spec);
+		if (temp == -1)
+			return (-1);
+		size += temp;
+		temp = hexa_helper(nbr % 16, spec);
+		if (temp == -1)
+			return (-1);
+		size += temp;
 	}
 	return (size);
-}
-
-/*static int	print_pointer(void *ptr)
-{
-	(void)ptr;
-	ft_putstr_fd("should be a pointer", 1);
-	return (0);
 }*/
 
 static int	print_conversions(char spec, va_list ptr)
 {
 	int		ret_value;
-	char	*str;
 
-	ret_value = 1;
+	ret_value = 0;
 	if (spec == 'c')
-		ft_putchar_fd(va_arg(ptr, int), 1);
+		ret_value = ft_putchar(va_arg(ptr, int));
 	else if (spec == '%')
-		ft_putchar_fd('%', 1);
+		ret_value = ft_putchar('%');
 	else if (spec == 's')
-	{
-		str = va_arg(ptr, char *);
-		if (str == NULL)
-		{
-			ret_value = 6;
-			ft_putstr_fd("(null)", 1);
-		}
-		else
-		{
-			ret_value += ft_strlen(str) - 1;
-			ft_putstr_fd(str, 1);
-		}
-	}
+		ret_value = ft_putstr(va_arg(ptr, char *));
 	else if (spec == 'd' || spec == 'i')
-	{
-		str = ft_itoa(va_arg(ptr, int));
-		if (str != NULL)
-		{
-			ret_value += ft_strlen(str) - 1;
-			ft_putstr_fd(str, 1);
-			free(str);
-		}
-		else
-			ret_value = 0;
-	}
+		ret_value = print_uint(va_arg(ptr, int));
 	else if (spec == 'u')
-		ret_value += print_uint(va_arg(ptr, unsigned int)) - 1;
+		ret_value = print_uint(va_arg(ptr, unsigned int));
 	else if (spec == 'x' || spec == 'X')
-		ret_value += print_hexa(va_arg(ptr, unsigned int), spec) - 1;
+		ret_value = print_hexa(va_arg(ptr, unsigned int), spec);
 	else if (spec == 'p')
 	{
-		ret_value += print_hexa(va_arg(ptr, unsigned int), 'x') - 1;
+		ret_value = ft_putstr("0x");
+		if (ret_value == -1)
+			return (-1);
+		ret_value += print_hexa(va_arg(ptr, unsigned long), 'x');
+		if (ret_value == 1)
+			return (-1);
 	}
 	return (ret_value);
 }
 
-static int	print_prev_str(const char *str, int i, int j)
-{
-	size_t	size;
-	char	to_print;
-
-	size = 0;
-	while (j < i)
-	{
-		to_print = (char)str[j];
-		ft_putchar_fd(to_print, 1);
-		size++;
-		j++;
-	}
-	return (size);
-}
-
 int	ft_printf(const char *str, ...)
 {
-	size_t	size;
-	size_t	i;
-	size_t	j;
+	int		size;
+	int		i;
+	int		temp;
 	va_list	ptr;
 
 	va_start(ptr, str);
 	i = 0;
-	j = 0;
 	size = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == '%')
 		{
-			if (i > j)
-				size += print_prev_str(str, i, j);
 			i++;
-			size += print_conversions(str[i], ptr);
-			j = i + 1;
+			temp = print_conversions(str[i], ptr);
+			if (temp == -1)
+				return (-1);
+			size += temp;
+		}
+		else
+		{
+			if (ft_putchar(str[i]) == -1)
+				return (-1);
+			size++;
 		}
 		i++;
 	}
-	if (i > j)
-		size += print_prev_str(str, i, j);
 	va_end(ptr);
 	return (size);
 }
-
-/*int main(void)
-{
-	ft_printf("\n%d\n", ft_printf("aahsajk%-+8d\n", 5));
-}*/

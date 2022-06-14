@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 19:17:03 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/08 18:07:38 by lsulzbac         ###   ########.fr       */
+/*   Created: 2022/06/08 17:59:13 by lsulzbac          #+#    #+#             */
+/*   Updated: 2022/06/08 18:01:46 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <string.h>
-# include <stdlib.h>
-# include <stddef.h>
+#include "ft_printf.h"
+#include <unistd.h>
 
-int	ft_printf(const char *str, ...);
-int	ft_putchar(char c);
-int	ft_putstr(char *str);
-int	print_hexa(unsigned long nbr, char spec);
-int	print_uint(long nbr);
-#endif
+int	ft_putchar(char c)
+{
+	return (write(1, &c, 1));
+}

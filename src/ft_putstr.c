@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 19:17:03 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/08 18:07:38 by lsulzbac         ###   ########.fr       */
+/*   Created: 2022/06/08 18:01:15 by lsulzbac          #+#    #+#             */
+/*   Updated: 2022/06/08 18:03:18 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <string.h>
-# include <stdlib.h>
-# include <stddef.h>
+#include "ft_printf.h"
 
-int	ft_printf(const char *str, ...);
-int	ft_putchar(char c);
-int	ft_putstr(char *str);
-int	print_hexa(unsigned long nbr, char spec);
-int	print_uint(long nbr);
-#endif
+int	ft_putstr(char *str)
+{
+	int	i;
+	int	temp;
+
+	i = 0;
+	if (str == NULL)
+	{
+		temp = ft_putstr("(null)");
+		if (temp == -1)
+			return (temp);
+		i = temp;
+	}
+	else
+	{
+		while (str[i])
+		{
+			temp = ft_putchar(str[i]);
+			if (temp == -1)
+				return (temp);
+			i += temp;
+		}
+	}
+	return (i);
+}
