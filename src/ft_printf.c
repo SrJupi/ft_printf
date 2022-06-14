@@ -6,7 +6,7 @@
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:54:18 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/08 18:14:56 by lsulzbac         ###   ########.fr       */
+/*   Updated: 2022/06/14 18:25:36 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,11 +164,32 @@ static int	print_conversions(char spec, va_list ptr)
 	return (ret_value);
 }
 
+static int	ft_helper(const char *str, int *i, int *size, va_list ptr)
+{
+	int	temp;
+
+	if (str[*i] == '%')
+	{
+		*i += 1;
+		temp = print_conversions(str[*i], ptr);
+		if (temp == -1)
+			return (-1);
+		*size += temp;
+	}
+	else
+	{
+		if (ft_putchar(str[*i]) == -1)
+			return (-1);
+		*size += 1;
+	}
+	*i += 1;
+	return (1);
+}
+
 int	ft_printf(const char *str, ...)
 {
 	int		size;
 	int		i;
-	int		temp;
 	va_list	ptr;
 
 	va_start(ptr, str);
@@ -176,21 +197,8 @@ int	ft_printf(const char *str, ...)
 	size = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '%')
-		{
-			i++;
-			temp = print_conversions(str[i], ptr);
-			if (temp == -1)
-				return (-1);
-			size += temp;
-		}
-		else
-		{
-			if (ft_putchar(str[i]) == -1)
-				return (-1);
-			size++;
-		}
-		i++;
+		if (ft_helper(str, &i, &size, ptr) == -1)
+			return (-1);
 	}
 	va_end(ptr);
 	return (size);
