@@ -6,15 +6,15 @@
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 19:17:03 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/15 15:36:49 by lsulzbac         ###   ########.fr       */
+/*   Updated: 2022/06/15 16:57:04 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# include <string.h>
 # include <stdlib.h>
-# include <stddef.h>
+# include <stdarg.h>
+# include <unistd.h>
 
 int	ft_printf(const char *str, ...);
 int	ft_putchar(char c);

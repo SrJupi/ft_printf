@@ -6,12 +6,11 @@
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 17:59:13 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/08 18:01:46 by lsulzbac         ###   ########.fr       */
+/*   Updated: 2022/06/15 16:54:15 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <unistd.h>
 
 int	ft_putchar(char c)
 {

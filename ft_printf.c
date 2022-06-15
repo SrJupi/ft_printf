@@ -6,12 +6,11 @@
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:54:18 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/15 15:37:20 by lsulzbac         ###   ########.fr       */
+/*   Updated: 2022/06/15 16:42:24 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdarg.h>
 
 static int	print_conversions(char spec, va_list ptr)
 {
