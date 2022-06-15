@@ -6,7 +6,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC_C = ft_printf.c ft_putchar.c ft_putstr.c print_hexa.c print_uint.c
+SRC_C = ft_printf.c ft_putchar.c ft_putstr.c enter_hexa.c print_uint.c
 
 OBJ = $(SRC_C:.c=.o)
 

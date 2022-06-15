@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_hexa.c                                       :+:      :+:    :+:   */
+/*   enter_hexa.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 17:55:24 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/08 18:01:55 by lsulzbac         ###   ########.fr       */
+/*   Created: 2022/06/15 15:36:23 by lsulzbac          #+#    #+#             */
+/*   Updated: 2022/06/15 15:37:57 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static int	hexa_helper(unsigned long nbr, char spec)
 		temp = ft_putchar(nbr + '0');
 	else
 	{
-		if (spec == 'x')
-			temp = ft_putchar('a' + (nbr - 10));
-		else
+		if (spec == 'X')
 			temp = ft_putchar('A' + (nbr - 10));
+		else
+			temp = ft_putchar('a' + (nbr - 10));
 	}
 	return (temp);
 }
 
-int	print_hexa(unsigned long nbr, char spec)
+static int	print_hexa(unsigned long nbr, char spec)
 {
 	int	size;
 	int	temp;
@@ -36,10 +36,9 @@ int	print_hexa(unsigned long nbr, char spec)
 	size = 0;
 	if (nbr < 16)
 	{
-		temp = hexa_helper(nbr, spec);
-		if (temp == -1)
+		if (hexa_helper(nbr, spec) == -1)
 			return (-1);
-		size += temp;
+		size++;
 	}
 	else
 	{
@@ -47,10 +46,29 @@ int	print_hexa(unsigned long nbr, char spec)
 		if (temp == -1)
 			return (-1);
 		size += temp;
-		temp = hexa_helper(nbr % 16, spec);
-		if (temp == -1)
+		if (hexa_helper(nbr % 16, spec) == -1)
 			return (-1);
-		size += temp;
+		size++;
 	}
+	return (size);
+}
+
+int	enter_hexa(unsigned long nbr, char spec)
+{
+	int	size;
+	int	temp;
+
+	size = 0;
+	if (spec == 'p')
+	{
+		if (ft_putstr("0x") == -1)
+			return (-1);
+		spec = 'x';
+		size += 2;
+	}
+	temp = print_hexa(nbr, spec);
+	if (temp == -1)
+		return (-1);
+	size += temp;
 	return (size);
 }

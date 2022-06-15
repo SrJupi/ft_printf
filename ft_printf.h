@@ -6,7 +6,7 @@
 /*   By: lsulzbac <lsulzbac@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 19:17:03 by lsulzbac          #+#    #+#             */
-/*   Updated: 2022/06/08 18:07:38 by lsulzbac         ###   ########.fr       */
+/*   Updated: 2022/06/15 15:36:49 by lsulzbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@
 int	ft_printf(const char *str, ...);
 int	ft_putchar(char c);
 int	ft_putstr(char *str);
-int	print_hexa(unsigned long nbr, char spec);
+int	enter_hexa(unsigned long nbr, char spec);
 int	print_uint(long nbr);
 #endif
