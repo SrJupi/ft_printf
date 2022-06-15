@@ -30,4 +30,4 @@ clean:
 	@rm -f $(OBJ_BONUS) $(OBJ)
 	@echo ".o cleaned"
 	
-.PHONY: fclean, all, clean, re
+.PHONY: fclean all clean re
