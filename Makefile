@@ -1,63 +1,33 @@
-NAME	=	libftprintf.a
+NAME = libftprintf.a
 
-INCLUDE	=	include
-LIBFT   =   libft
-SRC_DIR =   src/
-OBJ_DIR	=	obj/
-CC      =   gcc
-CFLAGS  =   -g -Wall -Wextra -Werror -I
-RM      =   rm -f
-AR		=	ar rcs
+HEADER = ft_printf.h
 
-# Colors
+CC = gcc
 
-DEF_COLOR = \033[0;39m
-GRAY = \033[0;90m
-RED = \033[0;91m
-GREEN = \033[0;92m
-YELLOW = \033[0;93m
-BLUE = \033[0;94m
-MAGENTA = \033[0;95m
-CYAN = \033[0;96m
-WHITE = \033[0;97m
+CFLAGS = -Wall -Wextra -Werror
 
-SRC_FILES	=	ft_printf print_hexa ft_putchar ft_putstr print_uint
+SRC_C = ft_printf.c ft_putchar.c ft_putstr.c print_hexa.c print_uint.c
 
-SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
-OBJ 		= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+OBJ = $(SRC_C:.c=.o)
 
-OBJF		=	.cache_exists
+all: 	$(NAME)
 
-all: ${NAME}
-${NAME}:${OBJ}
-	make -C ${LIBFT}
-	cp libft/libft.a .
-	mv libft.a ${NAME}
-	${AR} ${NAME} ${OBJ}
-	@echo "$(GREEN)ft_printf compiled!$(DEF_COLOR)"
+%.o : %.c $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
-	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+$(NAME): $(OBJ) $(HEADER)
+	@ar -rcs $(NAME) $(OBJ) $(HEADER)
+	@echo "Mandatory part compiled"
 
-${OBJF}:
-	@mkdir -p ${OBJ_DIR}
+re: fclean all
+
+fclean: clean
+	@rm -f $(NAME)
+	@echo ".a cleaned"
+	
 
 clean:
-	@$(RM) -rf $(OBJ_DIR)
-	@make clean -C $(LIBFT)
-	@echo "$(BLUE)ft_printf object files cleaned!$(DEF_COLOR)"
-
-fclean:	clean
-	@$(RM) -f $(NAME)
-	@$(RM) -f $(LIBFT)/libft.a
-	@echo "$(CYAN)ft_printf executable files cleaned!$(DEF_COLOR)"
-	@echo "$(CYAN)libft executable files cleaned!$(DEF_COLOR)"
-
-re:	fclean all
-	@echo "$(GREEN)Cleaned and rebuilt everything for ft_printf!$(DEF_COLOR)"
-
-norm:
-	@norminette ${SRC} ${INCLUDE} ${LIBFT} | grep -v Norme -B1 || true;
-
+	@rm -f $(OBJ_BONUS) $(OBJ)
+	@echo ".o cleaned"
+	
 .PHONY: fclean, all, clean, re
